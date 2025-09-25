@@ -7,7 +7,9 @@ Instalar las dependencias con: "npm install"
 Crear un archivo de nombre ".env.local" el cual debe contener lo siguiente:
 
 MONGODB_URI=mongodb+srv://<usuario>:<password>@cluster0.xxx.mongodb.net/
+
 JWT_SECRET=unaClaveParaFirmarTokens
+
 ADMIN_SECRET=laClaveParaAdmin
 
 Finalmente correr el proyecto con "npm run dev" y abrirlo en un navegador con: http://localhost:3000
