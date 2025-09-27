@@ -7,7 +7,10 @@ export async function POST(req: Request) {
     const { nombre, email, password } = await req.json();
 
     if (!nombre || !email || !password) {
-      return NextResponse.json({ message: "Todos los campos son obligatorios" }, { status: 400 });
+      return NextResponse.json(
+        { message: "Todos los campos son obligatorios" },
+        { status: 400 }
+      );
     }
 
     const client = await clientPromise;
@@ -17,11 +20,14 @@ export async function POST(req: Request) {
     // Verifica si ya existe el usuario
     const existingUser = await users.findOne({ email });
     if (existingUser) {
-      return NextResponse.json({ message: "El correo ya está registrado" }, { status: 400 });
+      return NextResponse.json(
+        { message: "El correo ya está registrado" },
+        { status: 400 }
+      );
     }
 
-    // Hashea contraseña
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // Hashea contraseña (costo 12 más seguro que 10)
+    const hashedPassword = await bcrypt.hash(password, 12);
 
     // Insertar usuario
     await users.insertOne({
@@ -32,9 +38,16 @@ export async function POST(req: Request) {
       createdAt: new Date(),
     });
 
-    return NextResponse.json({ message: "Usuario registrado exitosamente" }, { status: 201 });
+    return NextResponse.json(
+      { message: "Usuario registrado exitosamente" },
+      { status: 201 }
+    );
   } catch (error) {
     console.error("Error en registro:", error);
-    return NextResponse.json({ message: "Error en el servidor" }, { status: 500 });
+    return NextResponse.json(
+      { message: "Error en el servidor" },
+      { status: 500 }
+    );
   }
 }
+
